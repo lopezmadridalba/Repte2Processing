@@ -1,23 +1,26 @@
+PVector location; // indiquem les variables PVector per la velocitat i localització
+PVector velocity;
+ 
 void setup() {
-  //size(600,600);
+  size(640,360);
+  location = new PVector(100,100);
+  velocity = new PVector(2.5,5);
 }
  
 void draw() {
-  PVector mouse = new PVector(mouseX,mouseY); // aqui li diem quines seran les posicions del punter del ratolí
-  PVector center = new PVector(width/2,height/2); // aqui li diem quin sera el centre de la pantalla per dibuixar la linea
-  
-  background(255);
+  background(255); // li diem el color de fons
+ 
+  location.add(velocity); // li afegim la velocitat indicada anteriorment
 
-  mouse.sub(center); // d'aquesta manera fem que es pugui moure per tota la pantalla la linea
-  
-  float m = mouse.mag(); // utilitzem un metode ja propi del processing per accedir a la magnitud
-  
-  fill(0); // li fiquem el color negre al rectangle superior
-  rect(0,0,m,10); // aquesta es la linea de magnitud superior utilitzat la m sobre la magnitud al dibuixar la linea amb el mouse
-  
-  print("Magnitud de la linea: " + mouse.mag()); // mostrem un missatge per consola
-  
-  translate(width/2,height/2); // d'aquesta manera fem que la linea surti al centre
-  
-  line(0,0,mouse.x,mouse.y);
+  if ((location.x > width) || (location.x < 0)) { // d'aquesta manera detectem si el cercle a arribat a la vorera de la finestra
+  // llavors fa una direccio contraria
+    velocity.x = velocity.x * -1;
+  }
+  if ((location.y > height) || (location.y < 0)) {
+    velocity.y = velocity.y * -1;
+  }
+ 
+  stroke(0);
+  fill(175);
+  ellipse(location.x,location.y,16,16);
 }
